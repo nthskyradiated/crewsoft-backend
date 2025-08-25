@@ -1,40 +1,29 @@
 import {
   pgTable,
-  serial,
-  integer,
+  varchar,
   timestamp,
-  text,
-  boolean,
 } from "drizzle-orm/pg-core";
 
-import user from './user';
-import order from './order';
+import {recruiter, candidate} from '@/db/schema';
 import { relations } from "drizzle-orm";
 
-const comment = pgTable("comment", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id")
-    .notNull()
-    .references(() => order.id),
-  userId: integer("user_id")
-    .notNull()
-    .references(() => user.id),
-  commentText: text("comment_text").notNull(),
-  isComplaint: boolean("is_complaint").notNull(),
-  isPraise: boolean("is_praise").notNull(),
-  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
+const comments = pgTable("comments", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  candidate_id: varchar("candidate_id", { length: 36 }).references(() => candidate.id),
+  recruiter_id: varchar("recruiter_id", { length: 36 }).references(() => recruiter.id),
+  recruiter_comment: varchar("recruiter_comment", { length: 1024 }),
+  created_at: timestamp("created_at", { mode: "string" }),
 });
 
-export const commentRelations = relations(comment, ({ one }) => ({
-  user: one(user, {
-    fields: [comment.userId],
-    references: [user.id],
+export const commentsRelations = relations(comments, ({ one }) => ({
+  candidate: one(candidate, {
+    fields: [comments.candidate_id],
+    references: [candidate.id],
   }),
-  order: one(order, {
-    fields: [comment.orderId],
-    references: [order.id],
+  recruiter: one(recruiter, {
+    fields: [comments.recruiter_id],
+    references: [recruiter.id],
   }),
 }));
 
-export default comment;
+export default comments;

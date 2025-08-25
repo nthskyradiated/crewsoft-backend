@@ -1,7 +1,7 @@
 import { rpcClient } from "typed-rpc";
-import type { ByteDashService } from "@/api/service";
+import type { CrewSoftService } from "@/api/service";
 
-const client = rpcClient<ByteDashService>("http://localhost:3000/api");
+const client = rpcClient<CrewSoftService>("http://localhost:3000/api");
 
 try {
   // const categories = await client.getCategoriesSelect();

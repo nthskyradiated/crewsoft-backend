@@ -1,31 +1,21 @@
-import { relations } from "drizzle-orm";
 import {
   pgTable,
-  serial,
-  timestamp,
   varchar,
   boolean,
+  integer,
+  timestamp,
 } from "drizzle-orm/pg-core";
 
-import order from "./order";
-import address from "./address";
+import {batch} from "@/db/schema";
 
-const user = pgTable("users", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }).notNull(),
-  phone: varchar("contact_phone", { length: 255 }).notNull().unique(),
-  phoneVerified: boolean("phone_verified").notNull(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  emailVerified: boolean("email_verified").notNull(),
-  confirmationCode: varchar("confirmation_code", { length: 255 }),
+const user = pgTable("user", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  email_address: varchar("email_address", { length: 255 }).notNull().unique(),
   password: varchar("password", { length: 255 }).notNull(),
-  createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "string" }).notNull().defaultNow(),
+  email_verified: boolean("email_verified"),
+  designation: varchar("designation", { length: 16 }).notNull(), // Should match User_Type enum
+  batch_id: integer("batch_id").references(() => batch.id),
+  created_at: timestamp("created_at", { mode: "string" }),
 });
-
-export const userRelations = relations(user, ({ many }) => ({
-  addresses: many(address),
-  orders: many(order)
-}));
 
 export default user;

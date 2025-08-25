@@ -15,27 +15,15 @@ async function resetTable(db: db, table: Table) {
 }
 
 for (const table of [
-  schema.orderMenuItem,
-  schema.orderStatus,
-  schema.order,
-  schema.address,
+  schema.candidate,
   schema.user,
-  schema.menuItem,
-  schema.category,
-  schema.statusCatalog,
-  schema.restaurant,
-  schema.city,
-  schema.state,
+
 ]) {
   // await db.delete(table); // clear tables without truncating / resetting ids
   await resetTable(db, table);
 }
 
-await seeds.category(db);
-await seeds.statusCatalog(db);
-await seeds.state(db);
 await seeds.city(db);
-await seeds.restaurant(db);
 await seeds.user(db);
 await seeds.order(db);
 

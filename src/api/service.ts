@@ -2,7 +2,7 @@ import db from "@/db";
 import { category, city, menuItem, order, restaurant, user } from "@/db/schema";
 import { and, eq, inArray } from "drizzle-orm";
 
-export const ByteDashService = {
+export const CrewSoftService = {
   getCategoriesQuery() {
     return db.query.category.findMany();
   },
@@ -126,4 +126,4 @@ export const ByteDashService = {
   },
 };
 
-export type ByteDashService = typeof ByteDashService;
+export type CrewSoftService = typeof CrewSoftService;

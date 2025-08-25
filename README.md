@@ -1,5 +1,4 @@
-# Byte Dash
-
+# Crew Soft
 A restaurant food delivery service database implemented with [drizzle](https://orm.drizzle.team/).
 
 ### Drizzle Kit Updates
